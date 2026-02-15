@@ -1,0 +1,41 @@
+run_id: comparative-1-qwen3-8b-gsm8k
+method: IIW-AutoCoT (baseline)
+model:
+  name: Qwen3-8B
+  framework: transformers
+  precision: bf16
+  max_new_tokens: 256
+  temperature_sampling: 0.7
+  greedy_temperature: 0.0
+dataset:
+  name: openai/gsm8k
+  config: main
+  splits:
+    demo_pool: train[:256]
+    probe: train[256:320]
+    test: test[:200]
+  preprocessing:
+    max_length: 512
+    answer_extraction: last_number_regex
+training:
+  inference_only: true
+  learning_rate: 0.0
+  batch_size: 1
+  epochs: 0
+  optimizer: none
+  warmup_steps: 0
+method_settings:
+  k_clusters: 8
+  oversample_t: 1
+  self_consistency_m: 5
+  rewrite_r: 4
+  tau_sc: 0.6
+  paraphrase_consistency: true
+  drift_gate: none
+  demo_utility: acc1_only
+  harm_constraint: false
+  selection: top1_per_cluster
+optuna:
+  enabled: false
+  n_trials: 20
+  search_spaces: null

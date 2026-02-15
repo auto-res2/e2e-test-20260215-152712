@@ -1,0 +1,44 @@
+run_id: proposed-qwen3-8b-gsm8k
+method: Metamorphic-Influence Auto-CoT (MI-AutoCoT)
+model:
+  name: Qwen3-8B
+  framework: transformers
+  precision: bf16
+  max_new_tokens: 256
+  temperature_sampling: 0.7
+  greedy_temperature: 0.0
+dataset:
+  name: openai/gsm8k
+  config: main
+  splits:
+    demo_pool: train[:256]
+    probe: train[256:320]
+    test: test[:200]
+  preprocessing:
+    max_length: 512
+    answer_extraction: last_number_regex
+training:
+  inference_only: true
+  learning_rate: 0.0
+  batch_size: 1
+  epochs: 0
+  optimizer: none
+  warmup_steps: 0
+method_settings:
+  k_clusters: 8
+  oversample_t: 4
+  self_consistency_m: 5
+  rewrite_r: 4
+  tau_sc: 0.6
+  tau_morph: 0.6
+  tau_harm: 0.2
+  alpha: 1.0
+  beta: 1.0
+  lambda: 8.0
+  delta: 2.0
+  drift_gate: bidirectional_entailment
+  selection: top1_per_cluster
+optuna:
+  enabled: false
+  n_trials: 20
+  search_spaces: null

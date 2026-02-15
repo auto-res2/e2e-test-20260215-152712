@@ -1,18 +1,21 @@
-# Main configuration for Hydra
-# This file will be populated by AI code generator based on experimental design
-
 defaults:
+  - runs: ${run}
   - _self_
-  - run: ???  # loads from config/run/, accessible as 'run=' in CLI
 
-# Execution mode: main, sanity_check, or pilot
-mode: main
+run: proposed-qwen3-8b-gsm8k
+run_id: ${runs.run_id}
+method: ${runs.method}
+model: ${runs.model}
+dataset: ${runs.dataset}
+training: ${runs.training}
+method_settings: ${runs.method_settings}
+optuna: ${runs.optuna}
 
-# Results output directory
-results_dir: .research/results
+mode: full
+results_dir: results
+seed: 42
 
-# WandB configuration (will be set by AI agent)
 wandb:
-  entity: ???
-  project: ???
+  entity: airas
+  project: 2026-02-15
   mode: online
